@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+container=$(cd .. && docker-compose ps | grep "php" | cut -d" " -f 1)
+
+echo $container
+
+docker exec -it $container bin/console 'doctrine:migrations:migrate'

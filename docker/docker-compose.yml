@@ -1,0 +1,39 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ../.
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - 8050:8050
+    volumes:
+      - ../.:/web
+    depends_on:
+      - php
+  php:
+    build:
+      context: ../.
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ../.:/web
+    depends_on:
+      - db
+    env_file:
+      - ../.env
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - database_host=db
+      - database_name=db
+      - database_user=db
+      - database_password=db
+  db:
+    image: postgres:10-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=db
+      - POSTGRES_PASSWORD=db
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+volumes:
+  db-volume:
