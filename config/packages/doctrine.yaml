@@ -3,6 +3,7 @@ doctrine:
         default_connection: pgsql
         connections:
             pgsql:
+                server_version: 10
                 driver:   pdo_pgsql
                 host:     '%env(database_host)%'
                 port:     '%env(database_port)%'
